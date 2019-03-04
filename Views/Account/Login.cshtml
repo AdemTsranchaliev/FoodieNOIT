@@ -1,0 +1,88 @@
+﻿@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@model LoginViewModel
+@inject SignInManager<User> SignInManager
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/simple-line-icons.css">
+    <link rel="stylesheet" href="~/css/themify-icons.css">
+    <link rel="stylesheet" href="~/css/set1.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="@Href("~/fonts/material-icon/css/material-design-iconic-font.min.css")" />
+    <link rel="stylesheet" href="@Href("~/css/stylereg.css")" />
+}
+@section nav{
+    <div class="dark-bg sticky-top">
+    }
+
+    @section scripts2{
+        <script src="~/js/jquery-3.2.1.min.js"></script>
+        <script src="~/js/popper.min.js"></script>
+        <script src="~/js/bootstrap.min.js"></script>
+        <script src="~/js/custom.js"></script>
+        <script src="~/js/jquery.magnific-popup.js"></script>
+        <script src="~/js/swiper.min.js"></script>
+        <script src="~/js/main.js"></script>
+    }
+
+
+    <section class="signup">
+        <div class="container">
+            <div class="signup-content">
+                <div class="signup-form">
+                    <h2 class="form-title">Вход</h2>
+                    @if (Model != null)
+                    {
+                        if (Model.firstLog != null && Model.firstLog != true)
+                        {
+                            <div class="alert alert-success">
+                                <strong>Поздравления!</strong> Вие се регистрирахте успешно. Влезте в своя профил за да довършите регистрацията.
+                            </div>
+                        }
+                    }
+                    <span class="text-danger"> @Html.ValidationSummary()</span>
+                    <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="register-form">
+                        <div class="form-group">
+                            <label for="email"><i class="zmdi zmdi-email"></i></label>
+                            <input type="email" asp-for="Email" placeholder="Имейл" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                            <input asp-for="Password" type="password" placeholder="Парола" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        @*<div class="form-group">
+                                <label asp-for="RememberMe">
+                                    <input  type="checkbox" asp-for="RememberMe" />
+                                    @Html.DisplayNameFor(m => m.RememberMe)
+                                </label>
+                        </div>*@
+                        <div class="form-group form-button">
+                            <input type="submit" name="signup" id="signup" class="form-submit" value="Вход" />
+                        </div>
+
+                    </form>
+                </div>
+                <div class="signup-image">
+                    <figure><img src="~/images/signin-image.jpg" alt="sing up image"></figure>
+                    <a href="#" class="signup-image-link">Нямам регистрация</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    @section Scripts {
+        @await Html.PartialAsync("_ValidationScriptsPartial")
+    }

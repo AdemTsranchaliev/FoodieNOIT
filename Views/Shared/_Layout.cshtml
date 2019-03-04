@@ -1,0 +1,147 @@
+﻿
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Colorlib">
+    <meta name="description" content="#">
+    <meta name="keywords" content="#">
+
+    <title>@ViewData["Title"] - demo</title>
+
+    @RenderSection("MAINCSS", required: false)
+    @if (IsSectionDefined("styles"))
+    {
+        @RenderSection("styles")
+    }
+
+</head>
+<body>
+    <div class="nav-menu">
+        @RenderSection("nav", false)
+        <div class="bg transition">
+            <div class="container-fluid fixed">
+                <div class="row">
+                    <div class="col-md-12">
+                        <nav class="navbar navbar-expand-lg navbar-light">
+                            <img src="~/images/logo.png" class="navbar-brand" href="index.html">
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="icon-menu"></span>
+                            </button>
+                            <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+                                <ul class="navbar-nav">
+
+                                    @if (SignInManager.IsSignedIn(User))
+                                    {
+                                        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
+                                            <ul class="nav navbar-nav navbar-right">
+                                                @if (User.IsInRole("Restaurant"))
+                                                {
+                                                    <li>
+                                                        <a class="nav-link" asp-area="" asp-controller="Restaurant" asp-action="RestaurantControlPanel">Контролен панел</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" asp-action="RestaurantProfile" asp-controller="See" asp-route-id="0"  title="Manage">МОЯТ ПРОФИЛ</a>
+                                                    </li>
+                                                }
+                                                @if (User.IsInRole("Waiter"))
+                                                {
+                                                    <li>
+                                                        <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="WaiterControlPanel">Контролен панел</a>
+                                                    </li>
+
+                                                }
+                                                @if (User.IsInRole("Chef"))
+                                                {
+                                                    <li>
+                                                        <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="ChefControlPanel">Контролен панел</a>
+                                                    </li>
+
+                                                }
+                                                @if (User.IsInRole("Administrator"))
+                                                {
+                                                    <li>
+                                                        <a class="nav-link" asp-area="" asp-controller="Administrator" asp-action="ControlPanel">Контролен панел</a>
+                                                    </li>
+
+                                                }
+                                                <li class="nav-item">
+                                                    <button type="submit" class="btn btn-link navbar-btn navbar-link">Изход</button>
+                                                </li>
+                                            </ul>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <ul class="nav navbar-nav navbar-right">
+                                            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Регистрирай се</a></li>
+                                            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Влез</a></li>
+                                        </ul>
+                                    }
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-area="" asp-controller="Client" asp-action="QrReader">
+                                                <img src="~/images/rsz_qr-code.png">
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </ul>
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @RenderBody()
+
+    <footer class="main-block dark-bg bottom"></footer>
+
+
+    @RenderSection("scripts2", false)
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </environment>
+
+
+    @*<environment exclude="Development">
+            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                    asp-fallback-test="window.jQuery"
+                    crossorigin="anonymous"
+                    integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+            </script>
+            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                    crossorigin="anonymous"
+                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+            </script>
+            <script src="~/js/jquery-3.2.1.min.js" asp-append-version="true"></script>
+            <script src="~/js/popper.min.js" asp-append-version="true"></script>
+            <script src="~/js/bootstrap.min.js" asp-append-version="true"></script>
+            <script src="~/js/custom.js" asp-append-version="true"></script>
+            <script src="~/js/jquery.magnific-popup.js" asp-append-version="true"></script>
+            <script src="~/js/swiper.min.js" asp-append-version="true"></script>
+            <script src="~/js/main.js" asp-append-version="true"></script>
+
+        </environment>*@
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,186 @@
+﻿@model WaiterNewOrderViewModel
+@{
+    ViewData["Title"] = "WaiterAddNewOrder";
+}
+
+@section nav{
+
+
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="~/restaurantControlPanel/assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/libs/css/style.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/charts/chartist-bundle/chartist.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/charts/morris-bundle/morris.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/charts/c3charts/c3.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
+}
+
+@section scripts2{
+    <script src="~/restaurantControlPanel/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <!-- bootstap bundle js -->
+    <script src="~/restaurantControlPanel/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- slimscroll js -->
+    <script src="~/restaurantControlPanel/assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <!-- main js -->
+    <script src="~/restaurantControlPanel/assets/libs/js/main-js.js"></script>
+    <!-- chart chartist js -->
+    <script src="~/restaurantControlPanel/assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
+    <!-- sparkline js -->
+    <script src="~/restaurantControlPanel/assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
+    <!-- morris js -->
+    <script src="~/restaurantControlPanel/assets/vendor/charts/morris-bundle/raphael.min.js"></script>
+    <script src="~/restaurantControlPanel/assets/vendor/charts/morris-bundle/morris.js"></script>
+    <!-- chart c3 js -->
+    <script src="~/restaurantControlPanel/assets/vendor/charts/c3charts/c3.min.js"></script>
+    <script src="~/restaurantControlPanel/assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
+    <script src="~/restaurantControlPanel/assets/vendor/charts/c3charts/C3chartjs.js"></script>
+    <script src="~/restaurantControlPanel/assets/libs/js/dashboard-ecommerce.js"></script>
+
+    <script>
+        var arr = {};
+        function addProduct(id) {
+            var val = parseInt(document.getElementById(id).innerHTML);
+            if (isNaN(val) || val == null) {
+                val = 1;
+                arr[id] = 1;
+            } else {
+                arr[id] += 1;
+                val = val + 1;
+            }
+            document.getElementById(id).innerHTML = val;
+            sum();
+        };
+        function removeProduct(id) {
+            var val = parseInt(document.getElementById(id).innerHTML);
+            if (isNaN(val) || val == 0) {
+            } else {
+                val = val - 1;
+                arr[id] -= 1;
+                document.getElementById(id).innerHTML = val;
+            }
+        };
+        function sum() {
+            var a = "";
+            for (key in arr) {
+                a = a + key + "." + arr[key] + " ";
+            }
+            document.getElementById("hiddenVal").value = a;
+        };
+
+        var listt = document.getElementById("hiddenVall").value;
+        var list = listt.split(" ");
+        var filtered = list.filter(v => v != '');;
+        for (var i = 0; i < filtered.length; i++) {
+            var pro = filtered[i].split(".");
+            arr[pro[0] + '.' + pro[1]] = parseInt(pro[2]);
+            document.getElementById(pro[0] + "." + pro[1]).innerHTML = pro[2];
+        }
+
+    </script>
+
+}
+    <div class="nav-left-sidebar sidebar-dark">
+        <div class="menu-list">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="d-xl-none d-lg-none" href="#"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav flex-column">
+                        <li class="nav-item ">
+                            <a class="nav-link" asp-controller="Employee" asp-action="WaiterAddNewOrder"><i class="fas fa-fw fa-table"></i>Добави поръчка</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" asp-controller="Employee" asp-action="NotFinishedOrders"><i class="fab fa-fw fa-wpforms"></i>Недовършени поръчки</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" asp-controller="Employee" asp-action="NotConfirmedOrders"><i class="fab fa-fw fa-wpforms"></i>Чакащи потвърждение поръчки</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" asp-controller="Employee" asp-action="WaiterSeeOrders"><i class="fab fa-fw fa-wpforms"></i>Моите поръчки</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" asp-controller="Employee" asp-action="Setting"><i class="fab fa-fw fa-wpforms"></i>Смяна на парола</a>
+                        </li>
+
+                        <li class="nav-divider">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-fw fa-inbox"></i>Имейл <span class="badge badge-secondary"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="chat.html"><i class="fas fa-comment"></i>Чат <span class="badge badge-secondary"></span></a>
+                        </li>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+
+
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <input asp-for="HiddenVal" type="hidden" id="hiddenVall" />
+            <form asp-action="WaiterControlPanelPreview" asp-controller="Employee" method="post" onsubmit="sum()">
+                @if (!string.IsNullOrEmpty(ViewBag.tableNum))
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.tableNum
+                    </div>
+                }
+                <label>Номер на маса</label>
+                <select asp-for="TableNumber" class="form-control" id="@Model.TableNumber">
+                    
+                    @for (int i = 1; i <= Model.TableNumber; i++)
+                    {
+                        <option value="@i">@i</option>
+
+                    }
+
+                </select>
+                @foreach (var item in Model.MenuCategories)
+                {
+                    <div class="ecommerce-widget">
+                        <h1>@item.Name</h1>
+                        <hr />
+                        <div class="row">
+                            @foreach (var item2 in item.Products)
+                            {
+
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                    <a onclick="addProduct(@item.Id.@item2.Id)">
+                                        <div class="card border-3 border-top border-top-primary">
+                                            <div class="card-body">
+                                                <h5>Добави  <span class="badge badge-secondary badge-pill" id="@item.Id.@item2.Id"></span></h5>
+                                                <span>@item2.Name</span>
+
+                                            </div>
+                                            <a class="badge badge-secondary badge-pill" onclick="removeProduct(@item.Id.@item2.Id)">Премахни </a>
+                                        </div>
+                                    </a>
+                                </div>
+
+                            }
+                        </div>
+                        @*<a onclick="haide()">Haideee</a>*@
+                    </div>
+                }
+
+
+
+                <input asp-for="HiddenVal" type="hidden" id="hiddenVal" />
+                <br> <center><button type="submit" class="btn btn-primary btn-lg btn-block">Изпрати поръчка</button></center>
+            </form>
+
+        </div>
+    </div>
+</div>

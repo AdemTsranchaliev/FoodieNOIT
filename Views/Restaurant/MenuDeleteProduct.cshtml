@@ -1,0 +1,174 @@
+﻿@model MenuEditProductViewModel
+@{
+    ViewData["Title"] = "RestaurantControlPanel";
+}
+
+@section nav{
+
+
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="~/restaurantControlPanel/assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/libs/css/style.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/charts/chartist-bundle/chartist.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/charts/morris-bundle/morris.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/charts/c3charts/c3.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
+}
+
+@section scripts2{
+    <script src="~/restaurantControlPanel/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <!-- bootstap bundle js -->
+    <script src="~/restaurantControlPanel/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- slimscroll js -->
+    <script src="~/restaurantControlPanel/assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <!-- main js -->
+    <script src="~/restaurantControlPanel/assets/libs/js/main-js.js"></script>
+    <!-- chart chartist js -->
+    <script src="~/restaurantControlPanel/assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
+    <!-- sparkline js -->
+    <script src="~/restaurantControlPanel/assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
+    <!-- morris js -->
+    <script src="~/restaurantControlPanel/assets/vendor/charts/morris-bundle/raphael.min.js"></script>
+    <script src="~/restaurantControlPanel/assets/vendor/charts/morris-bundle/morris.js"></script>
+    <!-- chart c3 js -->
+    <script src="~/restaurantControlPanel/assets/vendor/charts/c3charts/c3.min.js"></script>
+    <script src="~/restaurantControlPanel/assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
+    <script src="~/restaurantControlPanel/assets/vendor/charts/c3charts/C3chartjs.js"></script>
+    <script src="~/restaurantControlPanel/assets/libs/js/dashboard-ecommerce.js"></script>
+
+
+}
+
+<div class="nav-left-sidebar sidebar-dark">
+    <div class="menu-list">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="d-xl-none d-lg-none" href="#"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-table"></i>Меню</a>
+                        <div id="submenu-5" class="collapse submenu" style="">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="MenuRemoveEditProduct" asp-controller="Restaurant">Редактирай или изтрий продукт</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="MenuProductAdd" asp-controller="Restaurant">Добави продукт</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4"><i class="fab fa-fw fa-wpforms"></i>Служители</a>
+                        <div id="submenu-4" class="collapse submenu" style="">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="AddEmployee" asp-controller="Restaurant">Добави служител</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="SeeAllEmployees" asp-controller="Restaurant">Основна информация за всички служители</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fab fa-fw fa-wpforms"></i>Настройки</a>
+                        <div id="submenu-3" class="collapse submenu" style="">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="RestaurantChangePassword" asp-controller="Restaurant">Смяна на парола</a>
+                                </li>
+                           
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="GenerateAndExportPdf" asp-controller="Restaurant"><i class="fas fa-fw fa-inbox fa-qrcode "></i>QR генератор <span class="badge badge-secondary"></span></a>
+                    </li>
+            
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+
+
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card">
+                    <h5 class="card-header">Изтрий продукт</h5>
+                    <div class="card-body">
+                        <form method="post" class="needs-validation" asp-action="MenuDeleteProductPost" asp-controller="Restaurant">
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    <div class="form-group">
+                                        <label for="inputUserName">Име</label>
+                                        <input value="@Model.Id" type="hidden" name="productId">
+                                        <input value="@Model.Name" type="text" data-parsley-trigger="change" class="form-control" asp-for="Name" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    <div class="form-group">
+                                        <label for="inputUserName">Категория</label>
+                                        <input value="@Model.MenuCategoryId" type="hidden" name="categoryId">
+                                        <input value="@Model.CategoryName" type="text" data-parsley-trigger="change" class="form-control" asp-for="CategoryName" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    <div class="form-group">
+                                        <label for="inputUserName">Цена</label>
+                                        <input value="@Model.Price" type="text" data-parsley-trigger="change" class="form-control" asp-for="Price" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    <div class="form-group">
+                                        <label for="inputUserName">Количество</label>
+                                        <input value="@Model.Weight" type="text" data-parsley-trigger="change" class="form-control" asp-for="Weight" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    <div class="form-group">
+                                        <label for="inputUserName">Количество</label>
+                                        <input value="@Model.Weight" type="text" data-parsley-trigger="change" class="form-control" asp-for="Weight" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    <div class="form-group">
+                                        <label for="inputUserName">Съставки</label>
+                                        <input value="@Model.Ingredients" type="text" data-parsley-trigger="change" class="form-control" asp-for="Ingredients" disabled>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="form-row">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <div class="form-group">
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    <button class="btn btn-primary" type="submit">Изтрий</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end validation form -->
+            <!-- ============================================================== -->
+        </div>

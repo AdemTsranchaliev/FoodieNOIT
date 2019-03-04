@@ -1,0 +1,172 @@
+﻿@model AddToExistingOrderViewModel
+
+
+@{
+    ViewData["Title"] = "SeeMenu";
+}
+
+
+@section nav{
+    <div class="dark-bg sticky-top">
+}
+
+@section styles{
+    <link rel="stylesheet" type="text/css" href="~/styles/bootstrap-4.1.2/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/css/menu.css">
+    <link rel="stylesheet" type="text/css" href="~/css/menu_responsive.css">
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+
+    <!-- Simple line Icon -->
+    <link rel="stylesheet" href="~/css/simple-line-icons.css">
+    <!-- Themify Icon -->
+    <link rel="stylesheet" href="~/css/themify-icons.css">
+    <!-- Hover Effects -->
+    <link rel="stylesheet" href="~/css/set1.css">
+    <!-- Swipper Slider -->
+    <link rel="stylesheet" href="~/css/swiper.min.css">
+    <!-- Magnific Popup CSS -->
+    <link rel="stylesheet" href="~/css/magnific-popup.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="~/css/style.css">
+}
+
+@section scripts2{
+    <script src="~/js/jquery-3.2.1.min.js"></script>
+    <script src="~/styles/bootstrap-4.1.2/popper.js"></script>
+    <script src="~/styles/bootstrap-4.1.2/bootstrap.min.js"></script>
+    <script src="~/plugins/greensock/TweenMax.min.js"></script>
+    <script src="~/plugins/greensock/TimelineMax.min.js"></script>
+    <script src="~/plugins/scrollmagic/ScrollMagic.min.js"></script>
+    <script src="~/plugins/greensock/animation.gsap.min.js"></script>
+    <script src="~/plugins/greensock/ScrollToPlugin.min.js"></script>
+    <script src="~/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="~/plugins/easing/easing.js"></script>
+    <script src="~/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/plugins/colorbox/jquery.colorbox-min.js"></script>
+    <script src="~/plugins/jquery-datepicker/jquery-ui.js"></script>
+    <script src="~/plugins/jquery-timepicker/jquery.timepicker.js"></script>
+    <script src="~/js/custom.js"></script>
+
+
+}
+
+
+
+
+
+<section class="main-block light-bg">
+
+    <!-- ============================================================== -->
+    <!-- end pageheader  -->
+    <!-- ============================================================== -->
+
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+       
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="d-flex justify-content-between align-items-center mb-0">
+                            <cemter><span class="text-muted">Поръчка</span></cemter>
+    
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group mb-3">
+                            @if (Model.Order.IsItConfirmed == false)
+                            {
+
+                                <div class="alert alert-warning" role="alert">
+                                    Поръчката Ви все още не е одобрена и не се изпълнява
+                                </div>
+
+                            }
+                            @foreach (var item in Model.Order.OrderProducts)
+                            {
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <div>
+                                        <h6 class="my-0">@item.Product.Name</h6>
+                                        <small class="text-muted">Brief description</small><br>
+                                        <span class="badge badge-secondary badge-pill">@item.Amount</span> × @item.Product.Price лв
+                                        <a href="#"><p class="text-muted">Откажи<p></a>
+                                    </div>
+                                    <span class="text-muted">@(item.Amount * item.Product.Price) лв</span>
+                                </li>
+                            }
+
+
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Сметка</span>
+                                <strong>@Model.Order.TotalPrice лв</strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                @if (Model.FinishOrders != null)
+                {
+
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="d-flex justify-content-between align-items-center mb-0">
+                                <cemter><span class="text-muted">Нови продукти</span></cemter>
+                                <span class="badge badge-secondary badge-pill">3</span>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group mb-3">
+                                @foreach (var item in Model.FinishOrders)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <div>
+                                            <h6 class="my-0">@item.Name</h6>
+                                            <small class="text-muted">Brief description</small><br>
+                                            <span class="badge badge-secondary badge-pill">@item.Amount</span> × @item.PricePerProduct лв
+                                            <a href="#"><p class="text-muted">Откажи<p></a>
+                                        </div>
+                                        <span class="text-muted">@(item.CommonPrice) лв</span>
+                                    </li>
+                                }
+
+
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Цена на новодобавени продукти</span>
+                                    <strong>@Model.FinishOrders.Sum(x => x.CommonPrice) лв</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Сметка с новодобавени продукти</span>
+                                    <strong>@(Model.FinishOrders.Sum(x => x.CommonPrice) + Model.Order.TotalPrice) лв</strong>
+                                </li>
+                            </ul>
+                            <form asp-action="MenuAddToExistingOrderClient" asp-controller="Client" method="get">
+                                <input type="hidden" asp-for="OrderId" value="@Model.OrderId" />
+                                <input type="hidden" asp-for="RestaurantId" value="@Model.RestaurantId" />
+                                <input type="hidden" asp-for="HiddenValue" value="@Model.HiddenValue" />
+                                <br> <center><button type="submit" class="btn btn-outline-danger  btn-block">Редактирай поръчка</button></center>
+                            </form>
+                            <form asp-action="AddToExistingOrderClientPost" asp-controller="Client" method="post">
+                                <input type="hidden" asp-for="OrderId" value="@Model.OrderId" />
+                                <input type="hidden" asp-for="RestaurantId" value="@Model.RestaurantId" />
+                                <input type="hidden" asp-for="HiddenValue" value="@Model.HiddenValue" />
+                                <br> <center><button type="submit" class="btn btn-primary btn-lg btn-block">Добави към поръчка</button></center>
+                            </form>
+
+                        </div>
+                    </div>
+                }
+                @if (Model.FinishOrders == null)
+                {
+                    <form asp-action="MenuAddToExistingOrderClient" asp-controller="Client" method="get">
+                        <input type="hidden" asp-for="OrderId" value="@Model.OrderId" />
+                        <input type="hidden" asp-for="RestaurantId" value="@Model.RestaurantId" />
+
+                        <br> <center><button type="submit" class="btn btn-outline-danger  btn-block">Добави към поръчка</button></center>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+    </section>

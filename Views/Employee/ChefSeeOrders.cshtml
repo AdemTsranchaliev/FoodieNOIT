@@ -1,0 +1,148 @@
+﻿
+@model List<Order>
+
+@inject UserManager<User> userManager
+
+@section nav{
+
+
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="~/restaurantControlPanel/assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/libs/css/style.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/charts/chartist-bundle/chartist.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/charts/morris-bundle/morris.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/charts/c3charts/c3.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
+}
+
+@section scripts2{
+    <script src="~/restaurantControlPanel/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <!-- bootstap bundle js -->
+    <script src="~/restaurantControlPanel/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- slimscroll js -->
+    <script src="~/restaurantControlPanel/assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <!-- main js -->
+    <script src="~/restaurantControlPanel/assets/libs/js/main-js.js"></script>
+    <!-- chart chartist js -->
+    <script src="~/restaurantControlPanel/assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
+    <!-- sparkline js -->
+    <script src="~/restaurantControlPanel/assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
+    <!-- morris js -->
+    <script src="~/restaurantControlPanel/assets/vendor/charts/morris-bundle/raphael.min.js"></script>
+    <script src="~/restaurantControlPanel/assets/vendor/charts/morris-bundle/morris.js"></script>
+    <!-- chart c3 js -->
+    <script src="~/restaurantControlPanel/assets/vendor/charts/c3charts/c3.min.js"></script>
+    <script src="~/restaurantControlPanel/assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
+    <script src="~/restaurantControlPanel/assets/vendor/charts/c3charts/C3chartjs.js"></script>
+    <script src="~/restaurantControlPanel/assets/libs/js/dashboard-ecommerce.js"></script>
+
+
+}
+
+    <div class="nav-left-sidebar sidebar-dark">
+        <div class="menu-list">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="d-xl-none d-lg-none" href="#"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="ChefSeeOrders" asp-controller="Employee" >Поръчки</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Setting" asp-controller="Employee" >Смяна на парола</a>
+                        </li>
+                    
+                        <li class="nav-divider">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-fw fa-inbox fa-qrcode "></i>Имейл <span class="badge badge-secondary"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="chat.html"><i class="fas fa-comment"></i>Чат <span class="badge badge-secondary"></span></a>
+                        </li>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+<div class="dashboard-wrapper">
+    <div class="container-fluid dashboard-content">
+        <!-- ============================================================== -->
+        <!-- pageheader -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="page-header">
+                    <h2 class="pageheader-title">Поръчки</h2>
+
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end pageheader -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card">
+                    <h5 class="card-header">Всички</h5>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Име на продукт</th>
+                                    <th scope="col">Име на сервитьор</th>
+                                    <th scope="col">Номер на маса</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    foreach (var item2 in item.OrderProducts)
+                                    {
+                                        for (int i=0;i<item2.Amount-item2.Ready;i++)
+                                        {
+                                <tr>
+                                    <th scope="row">#</th>
+                                    <td>@item2.Product.Name</td>
+                                    @if (@item2.Order.User != null)
+                                    {
+                                        <td>@item2.Order.User.UserName</td>
+                                    }
+                                    <td> </td>
+                                    <td>@item.TableNumber</td>
+                                    <td>
+                                        <form asp-controller="Employee" asp-action="ReadyProduct" asp-route-productId="@item2.ProductId" asp-route-orderId="@item.Id" method="post">
+                                    <td scope="col"><button class="btn btn-default btn-info">Готово</button></td>
+                                    </form>
+
+                                    <td>
+                                        <a asp-controller="Restaurant" asp-action="MenuDeleteProduct" asp-route-categoryId="@item.Id" class="btn btn-primary a-btn-slide-text">
+                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                            <span><strong>Информация </strong></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                        }
+                                    }
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

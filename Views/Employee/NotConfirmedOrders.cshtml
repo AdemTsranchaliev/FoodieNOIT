@@ -1,0 +1,119 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "NotConfirmedOrders";
+}
+
+@section nav{
+
+
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="~/restaurantControlPanel/assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/libs/css/style.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/charts/chartist-bundle/chartist.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/charts/morris-bundle/morris.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/charts/c3charts/c3.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
+}
+
+@section scripts2{
+    <script src="~/restaurantControlPanel/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <!-- bootstap bundle js -->
+    <script src="~/restaurantControlPanel/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- slimscroll js -->
+    <script src="~/restaurantControlPanel/assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <!-- main js -->
+    <script src="~/restaurantControlPanel/assets/libs/js/main-js.js"></script>
+    <!-- chart chartist js -->
+    <script src="~/restaurantControlPanel/assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
+    <!-- sparkline js -->
+    <script src="~/restaurantControlPanel/assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
+    <!-- morris js -->
+    <script src="~/restaurantControlPanel/assets/vendor/charts/morris-bundle/raphael.min.js"></script>
+    <script src="~/restaurantControlPanel/assets/vendor/charts/morris-bundle/morris.js"></script>
+    <!-- chart c3 js -->
+    <script src="~/restaurantControlPanel/assets/vendor/charts/c3charts/c3.min.js"></script>
+    <script src="~/restaurantControlPanel/assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
+    <script src="~/restaurantControlPanel/assets/vendor/charts/c3charts/C3chartjs.js"></script>
+    <script src="~/restaurantControlPanel/assets/libs/js/dashboard-ecommerce.js"></script>
+
+
+}
+
+    <div class="nav-left-sidebar sidebar-dark">
+        <div class="menu-list">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="d-xl-none d-lg-none" href="#"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav flex-column">
+                        <li class="nav-item ">
+                            <a class="nav-link" asp-controller="Employee" asp-action="WaiterAddNewOrder"><i class="fas fa-fw fa-table"></i>Добави поръчка</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" asp-controller="Employee" asp-action="NotFinishedOrders"><i class="fab fa-fw fa-wpforms"></i>Недовършени поръчки</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" asp-controller="Employee" asp-action="NotConfirmedOrders"><i class="fab fa-fw fa-wpforms"></i>Чакащи потвърждение поръчки</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" asp-controller="Employee" asp-action="WaiterSeeOrders"><i class="fab fa-fw fa-wpforms"></i>Моите поръчки</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" asp-controller="Employee" asp-action="Setting"><i class="fab fa-fw fa-wpforms"></i>Смяна на парола</a>
+                        </li>
+
+                        <li class="nav-divider">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-fw fa-inbox"></i>Имейл <span class="badge badge-secondary"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="chat.html"><i class="fas fa-comment"></i>Чат <span class="badge badge-secondary"></span></a>
+                        </li>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+
+
+
+            <div class="ecommerce-widget">
+                <h1>Маса номер</h1>
+                <hr />
+                <div class="row">
+                    @foreach (var item2 in Model)
+                    {
+
+                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                            <a asp-action="SeeOrder" asp-controller="Employee" asp-route-id="@item2.Id">
+                                <div class="card border-3 border-top border-top-primary">
+                                    <div class="card-body">
+
+                                        <h5>Номер на маса</h5>
+                                        <span>@item2.TableNumber</span>
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+

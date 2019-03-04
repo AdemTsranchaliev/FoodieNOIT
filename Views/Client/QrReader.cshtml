@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewData["Title"] = "QrReader";
+}
+
+@section nav{
+<div class="dark-bg sticky-top">
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
+    <!-- Simple line Icon -->
+    <link rel="stylesheet" href="~/css/simple-line-icons.css">
+    <!-- Themify Icon -->
+    <link rel="stylesheet" href="~/css/themify-icons.css">
+    <!-- Hover Effects -->
+    <link rel="stylesheet" href="~/css/set1.css">
+    <!-- Swipper Slider -->
+    <link rel="stylesheet" href="~/css/swiper.min.css">
+    <!-- Magnific Popup CSS -->
+    <link rel="stylesheet" href="~/css/magnific-popup.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/style2.css">
+    <style>
+        #button {
+            margin-bottom: 15px;
+        }
+
+        #heading {
+            margin-top: 40px;
+        }
+
+        * {
+            border: 0;
+            outline: 0;
+        }
+
+        #largeFile {
+            margin-bottom: 210px;
+        }
+
+        * {
+            border: 0;
+            outline: 0;
+        }
+
+        label#largeFile:after {
+            position: absolute;
+            width: 60%;
+            max-width: 800px;
+            content: "Качи файлове...";
+            left: 0;
+            right: 0;
+            margin: 50px auto;
+            text-align: center;
+            padding: 50px 0px 50px 0px;
+            border-radius: 10px;
+            border: 5px dashed #ccc;
+            color: #ccc;
+            font-size: 30px;
+        }
+
+        label#largeFile:hover:after {
+            background: #ccc;
+            color: #fff;
+            cursor: pointer;
+        }
+
+
+        label#largeFile input#file {
+            width: 0px;
+            height: 0px;
+        }
+
+        label#largeFile:hover:after {
+            background: #ccc;
+            color: #fff;
+            cursor: pointer;
+        }
+
+
+        label#largeFile input#file {
+            width: 0px;
+            height: 0px;
+        }
+    </style>
+}
+
+@section scripts2{
+    <script src="~/js/jquery-3.2.1.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- Magnific popup JS -->
+    <script src="~/js/jquery.magnific-popup.js"></script>
+    <!-- Swipper Slider JS -->
+    <script src="~/js/swiper.min.js"></script>
+    <script src="~/js/custom.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 3,
+            slidesPerGroup: 3,
+            loop: true,
+            loopFillGroupWithBlank: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
+    <script>
+        if ($('.image-link').length) {
+            $('.image-link').magnificPopup({
+                type: 'image',
+                gallery: {
+                    enabled: true
+                }
+            });
+        }
+        if ($('.image-link2').length) {
+            $('.image-link2').magnificPopup({
+                type: 'image',
+                gallery: {
+                    enabled: true
+                }
+            });
+        }
+    </script>
+
+}
+
+    <div style="padding-bottom: 40%">
+        @if (!string.IsNullOrEmpty(ViewBag.message))
+        {
+            <div class="alert alert-danger">
+                @ViewBag.message
+            </div>
+        }            <center>
+    <h3 id="heading"> Сканиране на QR код</h3>
+    <h5>За да сканирате кода се нуждаете от приложение, което ще изтеглите или отворите от тук:</h5>
+    <strong>За Android</strong>
+    <a href="https://play.google.com/store/apps/details?id=tw.mobileapp.qrcode.banner&hl=en_US">ТУК</a>
+    <br />
+    <strong>За IOS</strong>
+    <a href="https://itunes.apple.com/cy/app/qr-reader-for-iphone/id368494609?mt=8">ТУК</a>
+</center>
+
+    </div>
+
+
+
+
+

@@ -1,0 +1,181 @@
+﻿@model ProductAddViewModel
+
+
+@section styles{
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="~/restaurantControlPanel/assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/libs/css/style.css">
+    <link rel="stylesheet" href="~/restaurantControlPanel/assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link href="~/jquery-flexdatalist-2.2.4/jquery.flexdatalist.min.css" rel="stylesheet" type="text/css">
+}
+
+@section scripts2{
+    <script src="~/restaurantControlPanel/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <script src="~/restaurantControlPanel/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="~/restaurantControlPanel/assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <script src="~/restaurantControlPanel/assets/vendor/custom-js/jquery.multi-select.html"></script>
+    <script src="~/restaurantControlPanel/assets/libs/js/main-js.js"></script>
+    <script src="~/jquery-flexdatalist-2.2.4/jquery.flexdatalist.min.js"></script>
+    <script>
+        $('.flexdatalist').flexdatalist({
+            minLength: 1
+        });
+    </script>
+
+}
+
+
+
+<div class="nav-left-sidebar sidebar-dark">
+    <div class="menu-list">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="d-xl-none d-lg-none" href="#"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-table"></i>Меню</a>
+                        <div id="submenu-5" class="collapse submenu" style="">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="MenuRemoveEditProduct" asp-controller="Restaurant">Редактирай или изтрий продукт</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="MenuProductAdd" asp-controller="Restaurant">Добави продукт</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4"><i class="fab fa-fw fa-wpforms"></i>Служители</a>
+                        <div id="submenu-4" class="collapse submenu" style="">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="AddEmployee" asp-controller="Restaurant">Добави служител</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="SeeAllEmployees" asp-controller="Restaurant">Основна информация за всички служители</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fab fa-fw fa-wpforms"></i>Настройки</a>
+                        <div id="submenu-3" class="collapse submenu" style="">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="RestaurantChangePassword" asp-controller="Restaurant">Смяна на парола</a>
+                                </li>
+                         
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="GenerateAndExportPdf" asp-controller="Restaurant"><i class="fas fa-fw fa-inbox fa-qrcode "></i>QR генератор <span class="badge badge-secondary"></span></a>
+                    </li>
+            
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div class="dashboard-wrapper">
+    <div class="container-fluid dashboard-content">
+
+        <div class="row">
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card">
+                    <h5 class="card-header">Добавяне на продукт към менюто</h5>
+                    @if (!string.IsNullOrEmpty(ViewBag.message))
+                    {
+                        <div class="alert alert-success">
+                            @ViewBag.message
+                        </div>
+                    }
+                    @if (ViewBag.review != null)
+                    {
+                        <script>
+                            $(function () {
+                                window.location.hash = '#comment';
+                            });
+                        </script>
+                    }
+                    <div class="card-body">
+                        <form class="needs-validation" method="post" asp-action="MenuProductAdd" asp-controller="Restaurant">
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    <div class="form-group">
+                                        <label for="inputUserName">Категория</label>
+                                        <input type="text" asp-for="Category" class="form-control flexdatalist" data-min-length='1' list='languages'>
+                                        <datalist id="languagues">
+                                            @foreach (var item in Model.menuCategories)
+                                            {
+                                                <option value="@item.Name"></option>
+                                            }
+
+
+                                        </datalist>
+                                        <span class="text-danger" asp-validation-for="Category"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    <div class="form-group">
+                                        <label for="inputUserName">Име на продукт</label>
+                                        <input id="inputUserName" type="text" class="form-control" asp-for="ProductName">
+                                        <span class="text-danger" asp-validation-for="ProductName"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    <div class="form-group">
+                                        <label>Грамаж</label>
+                                        <input type="text" class="form-control" asp-for="Weight" >
+                                        <span class="text-danger" asp-validation-for="Weight"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    <div class="form-group">
+                                        <label for="inputUserName">Цена</label>
+                                        <input type="text" class="form-control" asp-for="Price" >
+                                        <span class="text-danger" asp-validation-for="Price"></span>
+                                    </div>
+                                </div>
+                          
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    <div class="form-group">
+                                        <label for="inputUserName">Съставки</label>
+                                        <input type='text' placeholder='Домати, Гъби...' class='flexdatalist' data-min-length='1' multiple='multiple' list='languages' asp-for="Ingredients">
+
+                                        <datalist id="languages">
+                                            @foreach (var item in Model.IngredientsList)
+                                            {
+                                                <option value="@item.Name">@item.Name</option>
+                                            }
+                                        </datalist>
+                                        <span class="text-danger" asp-validation-for="Ingredients"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-row">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    <button class="btn btn-primary" type="submit">Добави продукт</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end validation form -->
+            <!-- ============================================================== -->
+        </div>
+    </div>
+    @section Scripts {
+        @await Html.PartialAsync("_ValidationScriptsPartial")
+    }

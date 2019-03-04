@@ -1,0 +1,181 @@
+﻿
+@model OrderViewModel
+
+@{
+    ViewData["Title"] = "SeeMenu";
+}
+
+
+@section nav{
+<div class="dark-bg sticky-top">
+}
+
+@section styles{
+    <link rel="stylesheet" type="text/css" href="~/styles/bootstrap-4.1.2/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/css/menu.css">
+    <link rel="stylesheet" type="text/css" href="~/css/menu_responsive.css">
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+
+    <!-- Simple line Icon -->
+    <link rel="stylesheet" href="~/css/simple-line-icons.css">
+    <!-- Themify Icon -->
+    <link rel="stylesheet" href="~/css/themify-icons.css">
+    <!-- Hover Effects -->
+    <link rel="stylesheet" href="~/css/set1.css">
+    <!-- Swipper Slider -->
+    <link rel="stylesheet" href="~/css/swiper.min.css">
+    <!-- Magnific Popup CSS -->
+    <link rel="stylesheet" href="~/css/magnific-popup.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="~/css/style.css">
+}
+
+@section scripts2{
+    <script src="~/js/jquery-3.2.1.min.js"></script>
+    <script src="~/styles/bootstrap-4.1.2/popper.js"></script>
+    <script src="~/styles/bootstrap-4.1.2/bootstrap.min.js"></script>
+    <script src="~/plugins/greensock/TweenMax.min.js"></script>
+    <script src="~/plugins/greensock/TimelineMax.min.js"></script>
+    <script src="~/plugins/scrollmagic/ScrollMagic.min.js"></script>
+    <script src="~/plugins/greensock/animation.gsap.min.js"></script>
+    <script src="~/plugins/greensock/ScrollToPlugin.min.js"></script>
+    <script src="~/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="~/plugins/easing/easing.js"></script>
+    <script src="~/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/plugins/colorbox/jquery.colorbox-min.js"></script>
+    <script src="~/plugins/jquery-datepicker/jquery-ui.js"></script>
+    <script src="~/plugins/jquery-timepicker/jquery.timepicker.js"></script>
+    <script src="~/js/custom.js"></script>
+    <script>
+        var arr = {};
+        function addProduct(id) {
+
+           
+
+            var val = parseInt(document.getElementById(id).innerHTML);
+
+            if (isNaN(val) || val == null) {
+
+                val = 1;
+                arr[id] = 1;
+            } else {
+                arr[id] += 1;
+                val = val + 1;
+            }
+           
+
+            document.getElementById(id).innerHTML = val;
+            sum();
+        };
+        function removeProduct(id) {
+            var val = parseInt(document.getElementById(id).innerHTML);
+
+            if (isNaN(val) || val == 0) {
+
+
+            } else {
+                val = val - 1;
+                arr[id] -= 1;
+                document.getElementById(id).innerHTML = val;
+            }
+           
+        };
+
+        function sum() {
+            var a="";
+            for (key in arr) {
+                a = a + key + "." + arr[key] + " ";
+            }
+            document.getElementById("hiddenVal").value = a;
+        };
+
+        var listt = document.getElementById("hiddenVal").value;
+        var list = listt.split(" ");
+
+        var filtered = list.filter(v => v != '');;
+
+        for (var i = 0; i < filtered.length; i++) {
+            var pro = filtered[i].split(".");
+            arr[pro[0] + '.' + pro[1]] = parseInt(pro[2]);
+            document.getElementById(pro[0] + "." + pro[1]).innerHTML = pro[2];
+        }
+    </script>
+
+
+}
+
+
+
+
+
+    <div class="themenu">
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+
+                </div>
+            </div>
+
+            <div class="row themenu_row">
+                @foreach (var item in Model.MenuCategories)
+                {
+                    @if (item.Products.Count != 0)
+                    {
+                        <div class="col-lg-4 themenu_column">
+                            <div class="themenu_image"></div>
+                            <div class="themenu_col trans_400">
+                                <h3>@item.Name</h3>
+                                <div class="dish_list">
+
+                                    @foreach (var item2 in item.Products)
+                                    {
+
+                                        <div class="dish">
+                                            <div class="dish_title_container d-flex flex-xl-row flex-column align-items-start justify-content-start">
+                                                <div class="dish_title">@item2.Name</div>
+                                                <div class="dish_price">
+                                                    @item2.Price лв.
+                                                </div>
+                                            </div>
+                                            <div class="dish_contents">
+                                                <p>@item2.Weight гр.</p>
+                                                <ul class="d-flex flex-row align-items-start justify-content-start flex-wrap">
+                                                    <li>Pork</li>
+                                                    <li>Tenderloin</li>
+                                                    <li>Green Pepper</li>
+                                                </ul>
+                                                <div>
+                                                    <a style="color: dodgerblue; " onclick="addProduct(@item.Id.@item2.Id)">Добави към поръчка</a>
+
+                                                    <span class="badge badge-secondary badge-pill" id="@item.Id.@item2.Id"></span>
+                                                </div>
+                                                <a onclick="removeProduct(@item.Id.@item2.Id)">Премахни от поръчка</a>
+                                            </div>
+
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                    <!-- Starters -->
+
+
+                </div>
+
+        </div>
+
+        <form asp-action="FinishOrder" asp-controller="Client" method="post" onsubmit="sum()">
+            <input asp-for="TableNumber" type="hidden" value="@Model.TableNumber" />
+            <input asp-for="HiddenValue" type="hidden" id="hiddenVal" />
+            <input asp-for="RestaurantId" type="hidden" id="restaurantId" value="@Model.RestaurantId" />
+            <br> <center><button type="submit" class="btn btn-primary btn-lg btn-block">Изпрати поръчка</button></center>
+        </form>
+    </div>
+
+
